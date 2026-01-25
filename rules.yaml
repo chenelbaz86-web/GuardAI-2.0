@@ -1,0 +1,115 @@
+# ==========================================
+# GuardAI 2.0 - Security Policy Configuration
+# Inspired by Lasso Security's approach
+# ==========================================
+
+# ==========================================
+# TIER 1: PATTERN-BASED (Legacy + Enhanced)
+# ==========================================
+
+max_results_limit: 10
+block_on_sensitive: true
+redact_sensitive_in_logs: true
+
+allowed_qualifiers:
+  - "repo:"
+  - "org:"
+  - "user:"
+  - "path:"
+  - "language:"
+  - "filename:"
+
+sensitive_patterns:
+  - "password"
+  - "secret"
+  - "api[_-]?key"
+  - "token"
+  - "credential"
+  - "authorization:\\s*bearer\\s+\\S+"
+  - "-----begin\\s+.*private\\s+key-----"
+
+# ==========================================
+# TIER 2: GUARDRAILS AI (Optional)
+# ==========================================
+
+guardrails:
+  enabled: true
+  # Guardrails will activate when suspicion_score >= 30
+
+# ==========================================
+# TIER 3: AI JUDGE (LLM-as-a-Judge)
+# ==========================================
+
+ai_judge:
+  enabled: true
+  
+  # Model configuration (can be overridden per tenant)
+  model: "llama-3.1-8b-instant"  # Default: Groq Llama
+  provider: "groq"  # "groq" or "openai"
+  
+  # Invocation thresholds (suspicion_score >= threshold)
+  thresholds:
+    critical_tools: 20   # Almost always check
+    high_risk_tools: 30  # GitHub, DB, filesystem
+    medium_risk_tools: 50
+    low_risk_tools: 70   # Regular chat
+  
+  # Fail-safe modes (when AI Judge unavailable)
+  fail_mode:
+    chat: "open"              # Fail-open for low-risk (chat)
+    tools_sensitive: "closed"  # Fail-closed for high-risk (GitHub/DB)
+  
+  # Caching (reduce duplicate calls)
+  cache:
+    enabled: true
+    ttl_minutes: 5
+
+# ==========================================
+# TOOL-SPECIFIC POLICIES
+# ==========================================
+
+github:
+  search_code:
+    max_results_limit: 3
+    block_if_query_contains_sensitive: true
+    block_if_query_looks_like_secret_dump: true
+    risk_level: "high"  # Will trigger AI Judge at score >= 30
+
+# ==========================================
+# LOGGING & AUDIT
+# ==========================================
+
+logging:
+  decision_logs_dir: "logs/decisions"
+  attack_logs_file: "logs/decisions/attacks.jsonl"
+  retention_days: 30
+  
+  # Training data collection for ML/Fine-tuning
+  collect_training_samples: true
+  training_data_file: "data/training_samples.jsonl"
+
+# ==========================================
+# BYOK (Bring Your Own Key) Configuration
+# ==========================================
+
+# Default GuardAI policy key (fallback)
+# Override with environment variables:
+# - GUARDAI_POLICY_KEY
+# - GUARDAI_POLICY_MODEL
+# - GUARDAI_POLICY_PROVIDER
+
+# Per-tenant configuration (env vars):
+# - TENANT_{tenant_id}_POLICY_KEY
+# - TENANT_{tenant_id}_POLICY_MODEL
+# - TENANT_{tenant_id}_POLICY_PROVIDER
+
+# ==========================================
+# FUTURE: ML CLASSIFIERS (Tier 2.5)
+# ==========================================
+
+# ml_classifiers:
+#   enabled: false  # Coming in v2.1
+#   models:
+#     - "prompt_injection_rf.pkl"
+#     - "jailbreak_rf.pkl"
+#     - "data_exfiltration_rf.pkl"

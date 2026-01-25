@@ -1,0 +1,7 @@
+flask==3.0.3
+flask-cors==4.3.1
+flask-limiter==3.7.0
+openai==1.51.0
+groq==0.4.1
+presidio-analyzer==2.2.348
+requests==2.32.3

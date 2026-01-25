@@ -1,0 +1,22 @@
+[
+  {
+    "actor": "david.marketing",
+    "role": "שיווק",
+    "limit": 10
+  },
+  {
+    "actor": "sarah.hr",
+    "role": "משאבי אנוש",
+    "limit": 5
+  },
+  {
+    "actor": "moshe.dev",
+    "role": "פיתוח",
+    "limit": 50
+  },
+  {
+    "actor": "extern.contractor",
+    "role": "קבלן",
+    "limit": 2
+  }
+]
