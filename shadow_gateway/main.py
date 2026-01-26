@@ -20,9 +20,10 @@ async def chat_completions(request: Request):
 
     # Normalize model name from tools like Cursor → Groq model
     model_mapping = {
-    "OpenAI Compatible": "gpt-4o-mini",
-    "openai-compatible": "gpt-4o-mini",
+    "OpenAI Compatible": "gpt-4o",
+    "openai-compatible": "gpt-4o",
 }
+
 
     req.model = model_mapping.get(req.model, req.model)
 

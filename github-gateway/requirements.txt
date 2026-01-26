@@ -5,3 +5,6 @@ openai==1.51.0
 groq==0.4.1
 presidio-analyzer==2.2.348
 requests==2.32.3
+flask
+python-dotenv
+requests

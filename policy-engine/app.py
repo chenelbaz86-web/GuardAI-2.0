@@ -97,7 +97,11 @@ def check():
             "suspicion_score": result.get("suspicion_score", 0),
             "details": result.get("details", {}),
             "attack_type": result.get("attack_type", "none"),
+            # NEW: העברה מפורשת ל-proxy
+            "prompt": prompt,
+            "context": context,
         }
+
 
         status_code = 200 if allowed else 403
         logging.info(

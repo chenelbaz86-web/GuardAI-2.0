@@ -5,7 +5,6 @@ Reduces false positives with intelligent pattern weighting.
 Author: Chen Shaked
 Date: 2026-01-20 (v3.0 - False Positive Reduction)
 """
-
 import re
 import base64
 import logging
@@ -37,11 +36,9 @@ PATTERN_WEIGHTS = {
     "injection_patterns": 35,
     "advanced_jailbreak": 30,
     }
-
 # ===========================
 # EDUCATIONAL SIGNALS
 # ===========================
-
 EDUCATIONAL_SIGNALS = [
     r"\bhow\s+(do\s+i|to|can\s+i|should\s+i)\b",
     r"\bwhat\s+(is|are|does|would|should)\b",

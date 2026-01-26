@@ -16,8 +16,7 @@ class Settings(BaseSettings):
 
     # ברירת מחדל: Groq OpenAI-compatible
     UPSTREAM_LLM_URL: AnyHttpUrl = "https://api.openai.com/v1/chat/completions"
-    #UPSTREAM_LLM_API_KEY: str = "openai_dummy_key"
-    UPSTREAM_LLM_API_KEY: str = "YOUR_GROQ_API_KEY_HERE"
+    UPSTREAM_LLM_API_KEY: str = "openai_dummy_key"
 
 
     class Config:
